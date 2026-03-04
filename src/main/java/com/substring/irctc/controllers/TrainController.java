@@ -5,10 +5,7 @@ package com.substring.irctc.controllers;
 import com.substring.irctc.entity.Train;
 import com.substring.irctc.service.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +23,25 @@ public class TrainController {
 //    public List<Train> all(){
 //        return this.trainService.all();
 //    }
+    @GetMapping
+    public List<Train> getAllTrains(){
+        return trainService.getAllTrains();
+    }
 
+    @GetMapping("/{id}")
+    public Train getTrainById(@PathVariable String id){
+        return trainService.getTrainById(id);
+    }
+
+    @PostMapping
+    public Train createTrain(@RequestBody Train train){
+        return trainService.saveTrain(train);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteTrain(@PathVariable String id){
+        trainService.deleteTrain(id);
+        return "Train deleted successfully";
+    }
 
 }

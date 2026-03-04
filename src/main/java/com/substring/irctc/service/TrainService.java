@@ -1,6 +1,8 @@
 package com.substring.irctc.service;
 
 import com.substring.irctc.entity.Train;
+import com.substring.irctc.repository.TrainRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,5 +33,19 @@ public class TrainService {
 //        this.trainList=list;
 //    }
 
+    @Autowired
+    private TrainRepository trainRepository;
 
+    public List<Train> getAllTrains(){
+        return trainRepository.findAll();
+    }
+    public Train getTrainById(String id){
+        return trainRepository.findById(id).orElse(null);
+    }
+    public Train saveTrain(Train train){
+        return trainRepository.save(train);
+    }
+    public void  deleteTrain(String id){
+        trainRepository.deleteById(id);
+    }
 }
