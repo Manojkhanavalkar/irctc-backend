@@ -2,10 +2,16 @@ package com.substring.irctc.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Train {
     @Id
+    @NotEmpty(message = "train number is required!!")
+    @Size(min = 3 , max = 20, message = "Invalid Length of train")
+    @Pattern(regexp = "^\\d+$",message = "TrainNo should only contain numbers")
     private String trainNo;
     private String name;
     private int coaches;

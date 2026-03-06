@@ -1,12 +1,14 @@
 package com.substring.irctc.service;
 
 import com.substring.irctc.entity.Train;
+import com.substring.irctc.exceptions.ResourceNotFoundException;
 import com.substring.irctc.repository.TrainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TrainService {
@@ -40,7 +42,7 @@ public class TrainService {
         return trainRepository.findAll();
     }
     public Train getTrainById(String id){
-        return trainRepository.findById(id).orElse(null);
+        return trainRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No value Present in database"));
     }
     public Train saveTrain(Train train){
         return trainRepository.save(train);
