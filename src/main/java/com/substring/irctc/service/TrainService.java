@@ -1,8 +1,10 @@
 package com.substring.irctc.service;
 
+import com.substring.irctc.dto.TrainDTO;
 import com.substring.irctc.entity.Train;
 import com.substring.irctc.exceptions.ResourceNotFoundException;
 import com.substring.irctc.repository.TrainRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,19 +37,44 @@ public class TrainService {
 //        this.trainList=list;
 //    }
 
-    @Autowired
-    private TrainRepository trainRepository;
 
-    public List<Train> getAllTrains(){
-        return trainRepository.findAll();
+    private TrainRepository trainRepository;
+    private ModelMapper modelMapper;
+
+    public TrainService(TrainRepository trainRepository, ModelMapper modelMapper) {
+        this.trainRepository = trainRepository;
+        this.modelMapper = modelMapper;
     }
-    public Train getTrainById(String id){
-        return trainRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No value Present in database"));
+
+    public List<TrainDTO> getAllTrains(){
+        List<Train> all=trainRepository.findAll();
+        List<TrainDTO> listTrainDto=all.stream().map(train-> modelMapper.map(train,TrainDTO.class)).toList();
+        return listTrainDto;
     }
-    public Train saveTrain(Train train){
-        return trainRepository.save(train);
+    public TrainDTO getTrainById(String id){
+        Train train=trainRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No value Present in database"));
+        TrainDTO dto=modelMapper.map(train,TrainDTO.class);
+        return dto;
+    }
+    public TrainDTO saveTrain(TrainDTO trainDto){
+
+//        Train train=new Train();
+//        train.setTrainNo(trainDto.getTrainNo());
+//        train.setName(trainDto.getName());
+//        train.setRouteName(trainDto.getRouteName());
+        Train train=modelMapper.map(trainDto,Train.class);
+        Train savedTrain=trainRepository.save(train);
+
+//        TrainDTO dto=new TrainDTO();
+//        dto.setName(savedTrain.getName());
+//        dto.setTrainNo(savedTrain.getTrainNo());
+//        dto.setRouteName(savedTrain.getRouteName());
+
+        TrainDTO dto=modelMapper.map(savedTrain,TrainDTO.class);
+        return dto;
     }
     public void  deleteTrain(String id){
-        trainRepository.deleteById(id);
+        Train train=trainRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No value Present in database"));
+        trainRepository.delete(train);
     }
 }

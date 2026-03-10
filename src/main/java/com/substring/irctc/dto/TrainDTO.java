@@ -1,22 +1,21 @@
-package com.substring.irctc.entity;
+package com.substring.irctc.dto;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity
-public class Train {
-    @Id
+public class TrainDTO {
+    @NotEmpty(message = "train number is required!!")
+    @Size(min = 3 , max = 20, message = "Invalid Length of train")
+    @Pattern(regexp = "^\\d+$",message = "TrainNo should only contain numbers")
     private String trainNo;
     private String name;
 
     private String routeName;
+    public TrainDTO(){}
 
-    public Train(){}
-
-    public Train(String trainNo, String name, String routeName) {
+    public TrainDTO(String trainNo, String name, String routeName) {
         this.trainNo = trainNo;
         this.name = name;
         this.routeName = routeName;

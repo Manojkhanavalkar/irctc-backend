@@ -2,12 +2,16 @@ package com.substring.irctc.controllers;
 
 
 
+import com.substring.irctc.dto.TrainDTO;
 import com.substring.irctc.entity.ImageMetaData;
 import com.substring.irctc.entity.Train;
 import com.substring.irctc.repository.ImageMetaDataRepository;
 import com.substring.irctc.service.TrainService;
 import com.substring.irctc.service.impl.FileUploadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,18 +54,18 @@ public class TrainController {
 //        return this.trainService.all();
 //    }
     @GetMapping
-    public List<Train> getAllTrains(){
+    public List<TrainDTO> getAllTrains(){
         return trainService.getAllTrains();
     }
 
     @GetMapping("/{id}")
-    public Train getTrainById(@PathVariable String id){
+    public TrainDTO getTrainById(@PathVariable String id){
         return trainService.getTrainById(id);
     }
 
     @PostMapping
-    public Train createTrain(@RequestBody Train train){
-        return trainService.saveTrain(train);
+    public ResponseEntity<TrainDTO> createTrain(@Valid @RequestBody TrainDTO trainDto){
+        return new ResponseEntity<>(trainService.saveTrain(trainDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
