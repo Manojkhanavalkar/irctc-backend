@@ -1,7 +1,9 @@
 package com.substring.irctc.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,6 +15,17 @@ public class Train {
     private String name;
 
     private String routeName;
+
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    private TrainImage trainImage;
+
+    public TrainImage getTrainImage() {
+        return trainImage;
+    }
+
+    public void setTrainImage(TrainImage trainImage) {
+        this.trainImage = trainImage;
+    }
 
     public Train(){}
 

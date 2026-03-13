@@ -6,7 +6,12 @@ import com.substring.irctc.exceptions.ResourceNotFoundException;
 import com.substring.irctc.repository.TrainRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.substring.irctc.dto.PageResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +51,15 @@ public class TrainService {
         this.modelMapper = modelMapper;
     }
 
-    public List<TrainDTO> getAllTrains(){
-        List<Train> all=trainRepository.findAll();
-        List<TrainDTO> listTrainDto=all.stream().map(train-> modelMapper.map(train,TrainDTO.class)).toList();
-        return listTrainDto;
+    public PageResponse<TrainDTO> getAllTrains(int page,int size,String sortBy,String sortDir){
+        //code pagination and sorting
+        Sort sort=sortBy.trim().toLowerCase().equals("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable= PageRequest.of(page,size,sort);
+
+        Page<Train> trainPage=trainRepository.findAll(pageable);
+
+        Page<TrainDTO> trainDTOPage=trainPage.map(train-> modelMapper.map(train,TrainDTO.class));
+        return PageResponse.fromPage(trainDTOPage);
     }
     public TrainDTO getTrainById(String id){
         Train train=trainRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No value Present in database"));
