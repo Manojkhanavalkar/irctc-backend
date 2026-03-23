@@ -1,61 +1,47 @@
 package com.substring.irctc.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Train {
     @Id
-    private String trainNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String number;
     private String name;
 
-    private String routeName;
+    private Integer totalDistance;
+
+    @ManyToOne
+    @JoinColumn(name = "source_destination_id")
+    private Station sourceStation;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_station_id")
+    private Station destinationStation;
+
+    //train routes
+    @OneToMany(mappedBy = "train")
+    private List<TrainRoute> routes;
+    //schedule
+    @OneToMany(mappedBy = "train")
+    private List<TrainSchedule> schedules;
 
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private TrainImage trainImage;
 
-    public TrainImage getTrainImage() {
-        return trainImage;
-    }
 
-    public void setTrainImage(TrainImage trainImage) {
-        this.trainImage = trainImage;
-    }
-
-    public Train(){}
-
-    public Train(String trainNo, String name, String routeName) {
-        this.trainNo = trainNo;
-        this.name = name;
-        this.routeName = routeName;
-    }
-
-    public String getTrainNo() {
-        return trainNo;
-    }
-
-    public void setTrainNo(String trainNo) {
-        this.trainNo = trainNo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRouteName() {
-        return routeName;
-    }
-
-    public void setRouteName(String routeName) {
-        this.routeName = routeName;
-    }
 }

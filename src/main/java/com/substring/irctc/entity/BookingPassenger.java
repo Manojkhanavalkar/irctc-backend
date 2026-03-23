@@ -2,25 +2,30 @@ package com.substring.irctc.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "stations")
-@Getter
-@Setter
+@Table(name = "booking_passengers")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Station {
-
+public class BookingPassenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
+
     private String name;
 
-    private String city;
-    private String state;
+    private Integer age;
+
+    private String gender;
+
+    private String seatNumber;
 }
