@@ -22,6 +22,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String pnr;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

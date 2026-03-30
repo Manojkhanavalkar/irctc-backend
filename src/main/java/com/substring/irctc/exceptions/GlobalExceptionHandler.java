@@ -3,6 +3,7 @@ package com.substring.irctc.exceptions;
 
 import com.substring.irctc.dto.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
@@ -44,5 +45,16 @@ public class GlobalExceptionHandler {
         }
         ResponseEntity<Map<String ,String >> error=new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
         return error;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleNoSuchException(DataIntegrityViolationException exception){
+
+        String message=exception.getMessage().contains("duplicate key") ?"You are trying to add record that already exists":exception.getMessage();
+
+        ErrorResponse response=
+                new ErrorResponse(message,"400",false);
+        ResponseEntity<ErrorResponse> responseResponseEntity=new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return responseResponseEntity;
     }
 }

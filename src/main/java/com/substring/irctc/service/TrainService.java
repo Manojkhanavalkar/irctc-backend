@@ -4,6 +4,10 @@ import com.substring.irctc.dto.TrainDTO;
 import com.substring.irctc.entity.Train;
 import com.substring.irctc.exceptions.ResourceNotFoundException;
 import com.substring.irctc.repository.TrainRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,38 +22,17 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TrainService {
-//    List<Train> trainList =new ArrayList<>();
-//    public TrainService(){
-//        trainList.add(new Train("1234","Pune-Mumbai Singhgad-Express",28));
-//        trainList.add(new Train("1235","Pune-Satara Rajdhani-Express",10));
-//    }
-//
-//
-//    public Train add(Train train){
-//        trainList.add(train);
-//        return train;
-//    }
-//    public List<Train> all(){
-//        return this.trainList;
-//    }
-//    public Train get(String trainNo){
-//        Train train1= trainList.stream().filter(train -> train.getTrainNo().equals(trainNo)).findFirst().get();
-//        return train1;
-//    }
-//    public void delete(String trainNo){
-//        List<Train> list=trainList.stream().filter(train -> !train.getTrainNo().equals(trainNo)).toList();
-//        this.trainList=list;
-//    }
 
 
     private TrainRepository trainRepository;
     private ModelMapper modelMapper;
 
-    public TrainService(TrainRepository trainRepository, ModelMapper modelMapper) {
-        this.trainRepository = trainRepository;
-        this.modelMapper = modelMapper;
-    }
+
 
     public PageResponse<TrainDTO> getAllTrains(int page,int size,String sortBy,String sortDir){
         //code pagination and sorting

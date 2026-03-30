@@ -1,85 +1,31 @@
 package com.substring.irctc.dto;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StationDTO {
-    @Size(min = 3 , max = 20, message = "station code is too long should be less than 20 characters")
-    @Pattern(regexp = "^[A-Z]+-[0-9]+[A-Z]$", message = "station code is invalid should be in format like MUMBAI-1E ")
-    String stationCode;
-    String stationName;
-    String city;
-    String state;
-    String zone;
-    int platforms;
-    boolean active;
 
-    public StationDTO() {
-    }
+    private Long id;
+    @NotBlank(message = "Station code should not be blank")
+    @Size(min = 3,max = 10,message = "code size should be greater than 3 and less than 10")
+    private String code;
+    @NotBlank(message = "name should not be blank")
+    private String name;
+    @NotBlank(message = "city should not be blank")
+    private String city;
+    @NotBlank(message = "state should not be blank")
+    private String state;
 
-    public StationDTO(String stationCode, String stationName, String city, String state, String zone, int platforms, boolean active) {
-        this.stationCode = stationCode;
-        this.stationName = stationName;
-        this.city = city;
-        this.state = state;
-        this.zone = zone;
-        this.platforms = platforms;
-        this.active = active;
-    }
-
-    public String getStationCode() {
-        return stationCode;
-    }
-
-    public void setStationCode(String stationCode) {
-        this.stationCode = stationCode;
-    }
-
-    public String getStationName() {
-        return stationName;
-    }
-
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZone() {
-        return zone;
-    }
-
-    public void setZone(String zone) {
-        this.zone = zone;
-    }
-
-    public int getPlatforms() {
-        return platforms;
-    }
-
-    public void setPlatforms(int platforms) {
-        this.platforms = platforms;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }
