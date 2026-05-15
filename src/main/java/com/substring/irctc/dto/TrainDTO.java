@@ -31,6 +31,4 @@ public class TrainDTO {
     private Long destinationStationId;
 
 
-
-
 }

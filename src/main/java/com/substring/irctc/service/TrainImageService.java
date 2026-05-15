@@ -32,7 +32,7 @@ public class TrainImageService {
     private TrainRepository trainRepository;
     @Autowired
     private TrainImageRepository trainImageRepository;
-    public TrainImageResponse upload(MultipartFile file,String trainNo) throws IOException {
+    public TrainImageResponse upload(MultipartFile file,Long trainNo) throws IOException {
 
         Train train=trainRepository.findById(trainNo).orElseThrow(()->  new ResourceNotFoundException("train not found"));
 
@@ -61,7 +61,7 @@ public class TrainImageService {
 
     }
 
-    public TrainImageDataWithResource loadImageByTrainNo(String trainId) throws MalformedURLException {
+    public TrainImageDataWithResource loadImageByTrainNo(Long trainId) throws MalformedURLException {
         //get the train using trainNo
         Train train=trainRepository.findById(trainId).orElseThrow(()->new ResourceNotFoundException("train not found"));
         TrainImage trainImage=train.getTrainImage();
