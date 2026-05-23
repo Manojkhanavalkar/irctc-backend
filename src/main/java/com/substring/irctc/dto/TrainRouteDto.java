@@ -1,0 +1,22 @@
+package com.substring.irctc.dto;
+
+import com.substring.irctc.entity.Train;
+import lombok.*;
+
+import java.time.LocalTime;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class TrainRouteDto {
+    private Long id;
+    private TrainDTO train;
+    private StationDTO station;
+    private Integer stationOrder;
+    private LocalTime arrivalTime;
+    private Integer haltMinutes;
+    private LocalTime departureTime;
+    private Integer distanceFromSource;
+}

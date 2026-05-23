@@ -25,10 +25,7 @@ public class TrainDTO {
 
     private Integer totalDistance;
     private StationDTO sourceStation;
-    private Long sourceStationId;
-
     private StationDTO destinationStation;
-    private Long destinationStationId;
 
 
 }
